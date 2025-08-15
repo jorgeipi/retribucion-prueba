@@ -1,1 +1,0 @@
-import{_ as o,c as a,a as r,o as c}from"./index-CU1B_6OT.js";const n={};function t(s,e){return c(),a("div",null,e[0]||(e[0]=[r("h1",{style:{color:"black"}},"Pagina de prueba",-1)]))}const i=o(n,[["render",t]]);export{i as default};
