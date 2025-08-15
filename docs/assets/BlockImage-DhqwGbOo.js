@@ -1,1 +1,0 @@
-import{c as e,o as a}from"./index-Ck9Ql8Yw.js";const c=["src","alt"],o={__name:"BlockImage",props:{src:{type:String,required:!0},alt:{type:String,default:""}},setup(t){return(r,l)=>(a(),e("img",{src:t.src,alt:t.alt,class:"blockipi-image",loading:"lazy"},null,8,c))}};export{o as _};
