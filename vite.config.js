@@ -14,16 +14,15 @@ export default defineConfig({
   },
   build: {
     outDir: `dist/notes/${process.env.NOTE_NAME?.trim()}`,
-    emptyOutDir: true,
-    manifest: true, // Genera un manifest.json con los hashes
+    emptyOutDir: false,
     rollupOptions: {
-      input: path.resolve(__dirname, `src/notes/${process.env.NOTE_NAME?.trim()}/main.js`),
+      input: {
+        main: path.resolve(__dirname, `src/notes/${process.env.NOTE_NAME?.trim()}/main.js`)
+      },
       output: {
         entryFileNames: `assets/js/[name].[hash].js`,
-        chunkFileNames: `assets/js/[name].[hash].js`,
         assetFileNames: `assets/[ext]/[name].[hash][extname]`
       }
     }
-  },
-  base: process.env.NODE_ENV === "production" ? "/retribucion-prueba/" : "/",
+  }
 })

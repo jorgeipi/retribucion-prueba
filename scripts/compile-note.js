@@ -16,21 +16,31 @@ if (!noteName) {
 console.log(`Compilando nota ${noteName}...`)
 
 try {
-  // Verificar que existe la nota
+  // 1. Verificar y limpiar el nombre de la nota
+  const cleanNoteName = noteName.replace(/\s+/g, '')
+  if (cleanNoteName !== noteName) {
+    console.warn(`Advertencia: Se eliminaron espacios del nombre de nota: "${noteName}" -> "${cleanNoteName}"`)
+    noteName = cleanNoteName
+  }
+
+  // 2. Verificar estructura de la nota
   const notePath = path.join(__dirname, `../src/notes/${noteName}`)
+  const mainJsPath = path.join(notePath, 'main.js')
+  
   if (!fs.existsSync(notePath)) {
     throw new Error(`No existe la nota ${noteName} en src/notes/`)
   }
+  if (!fs.existsSync(mainJsPath)) {
+    throw new Error(`No existe main.js en ${notePath}`)
+  }
 
-  // Verificar archivos requeridos
-  const requiredFiles = ['main.js', 'App.vue']
-  requiredFiles.forEach(file => {
-    if (!fs.existsSync(path.join(notePath, file))) {
-      throw new Error(`Falta archivo requerido: ${file}`)
-    }
-  })
+  // 3. Verificar contenido de main.js
+  const mainJsContent = fs.readFileSync(mainJsPath, 'utf-8')
+  if (!mainJsContent.includes('createApp') || !mainJsContent.includes('mount')) {
+    throw new Error('El archivo main.js no parece un punto de entrada Vue válido')
+  }
 
-  // Compilar con Vite
+  // 4. Compilar con Vite (Windows/Linux compatible)
   const command = process.platform === 'win32'
     ? `set NOTE_NAME=${noteName} && vite build`
     : `NOTE_NAME=${noteName} vite build`
@@ -38,53 +48,14 @@ try {
   console.log(`Ejecutando: ${command}`)
   execSync(command, { stdio: 'inherit' })
 
-  // Leer el manifest generado para obtener los hashes
-  const manifestPath = path.join(__dirname, `../dist/notes/${noteName}/manifest.json`)
-  let cssFile = ''
-  let jsFile = ''
-
-  if (fs.existsSync(manifestPath)) {
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
-    jsFile = manifest['main.js'].file
-    cssFile = manifest['main.js'].css?.[0] || ''
-  } else {
-    // Fallback: buscar archivos en el directorio
-    const assetsDir = path.join(__dirname, `../dist/notes/${noteName}/assets`)
-    const jsFiles = fs.readdirSync(path.join(assetsDir, 'js')).filter(f => f.endsWith('.js'))
-    const cssFiles = fs.readdirSync(path.join(assetsDir, 'css')).filter(f => f.endsWith('.css'))
-    
-    if (jsFiles.length > 0) jsFile = `assets/js/${jsFiles[0]}`
-    if (cssFiles.length > 0) cssFile = `assets/css/${cssFiles[0]}`
-  }
-
-  // Crear HTML con los hashes correctos
-  const htmlContent = `<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nota ${noteName}</title>
-  ${cssFile ? `<link rel="stylesheet" href="./${cssFile}">` : ''}
-</head>
-<body>
-  <div id="app"></div>
-  <script type="module" src="./${jsFile}"></script>
-</body>
-</html>`
-
-  fs.writeFileSync(
-    path.join(__dirname, `../dist/notes/${noteName}/index.html`),
-    htmlContent
-  )
-
-  // Eliminar el manifest.json si existe
-  if (fs.existsSync(manifestPath)) {
-    fs.unlinkSync(manifestPath)
+  // 5. Verificar archivos generados
+  const distPath = path.join(__dirname, `../dist/notes/${noteName}`)
+  if (!fs.existsSync(distPath)) {
+    throw new Error('No se generaron archivos en el directorio dist')
   }
 
   console.log(`✅ Nota compilada en: dist/notes/${noteName}`)
-  console.log('Archivos generados:')
-  console.log(fs.readdirSync(path.join(__dirname, `../dist/notes/${noteName}`)).join('\n'))
+  console.log('Archivos generados:', fs.readdirSync(distPath).join(', '))
 
 } catch (error) {
   console.error(`❌ Error compilando ${noteName}:`, error.message)
