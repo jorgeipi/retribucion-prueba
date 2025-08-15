@@ -1,1 +1,0 @@
-import{_ as t,c as r,a as n,b as a,r as s,F as c,o as l}from"./index-D2F-cUjJ.js";const _={};function u(m,e){const o=s("router-view");return l(),r(c,null,[e[0]||(e[0]=n("p",null,"Este es mi layout",-1)),a(o)],64)}const p=t(_,[["render",u]]);export{p as default};
