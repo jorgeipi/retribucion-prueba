@@ -6,22 +6,37 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('note-')
+        }
+      }
+    })
+  ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, './src'),
+      // Añade alias específicos si es necesario
+      '@/components': path.resolve(__dirname, './src/components')
     }
   },
   build: {
     outDir: `dist/notes/${process.env.NOTE_NAME?.trim()}`,
-    emptyOutDir: false,
+    lib: {
+      entry: path.resolve(__dirname, `src/notes/${process.env.NOTE_NAME?.trim()}/main.js`),
+      formats: ['es'],
+      name: 'NoteComponent',
+      fileName: 'note-component'
+    },
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, `src/notes/${process.env.NOTE_NAME?.trim()}/main.js`)
-      },
+      // Añade aquí las dependencias que no deben empaquetarse
+      external: ['vue'],
       output: {
-        entryFileNames: `assets/js/[name].[hash].js`,
-        assetFileNames: `assets/[ext]/[name].[hash][extname]`
+        globals: {
+          vue: 'Vue'
+        }
       }
     }
   }
