@@ -1,3 +1,6 @@
+@use 'mixins' as m;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 $primaryFont: "Noto Sans", serif;
 $light: 300;
 $regular : 400;
@@ -5,7 +8,6 @@ $medium: 500;
 $light-bold: 600;
 $bold: 700;
 
-@use 'mixins' as m;
 
 html {
     font-size: 62.5%;

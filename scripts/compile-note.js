@@ -38,17 +38,37 @@ try {
   console.log(`Ejecutando: ${command}`)
   execSync(command, { stdio: 'inherit' })
 
-  // Crear HTML de prueba
+  // Leer el manifest generado para obtener los hashes
+  const manifestPath = path.join(__dirname, `../dist/notes/${noteName}/manifest.json`)
+  let cssFile = ''
+  let jsFile = ''
+
+  if (fs.existsSync(manifestPath)) {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
+    jsFile = manifest['main.js'].file
+    cssFile = manifest['main.js'].css?.[0] || ''
+  } else {
+    // Fallback: buscar archivos en el directorio
+    const assetsDir = path.join(__dirname, `../dist/notes/${noteName}/assets`)
+    const jsFiles = fs.readdirSync(path.join(assetsDir, 'js')).filter(f => f.endsWith('.js'))
+    const cssFiles = fs.readdirSync(path.join(assetsDir, 'css')).filter(f => f.endsWith('.css'))
+    
+    if (jsFiles.length > 0) jsFile = `assets/js/${jsFiles[0]}`
+    if (cssFiles.length > 0) cssFile = `assets/css/${cssFiles[0]}`
+  }
+
+  // Crear HTML con los hashes correctos
   const htmlContent = `<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nota ${noteName}</title>
+  ${cssFile ? `<link rel="stylesheet" href="./${cssFile}">` : ''}
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="./assets/js/main.js"></script>
+  <script type="module" src="./${jsFile}"></script>
 </body>
 </html>`
 
@@ -56,6 +76,11 @@ try {
     path.join(__dirname, `../dist/notes/${noteName}/index.html`),
     htmlContent
   )
+
+  // Eliminar el manifest.json si existe
+  if (fs.existsSync(manifestPath)) {
+    fs.unlinkSync(manifestPath)
+  }
 
   console.log(`✅ Nota compilada en: dist/notes/${noteName}`)
   console.log('Archivos generados:')

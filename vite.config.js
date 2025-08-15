@@ -15,6 +15,7 @@ export default defineConfig({
   build: {
     outDir: `dist/notes/${process.env.NOTE_NAME?.trim()}`,
     emptyOutDir: true,
+    manifest: true, // Genera un manifest.json con los hashes
     rollupOptions: {
       input: path.resolve(__dirname, `src/notes/${process.env.NOTE_NAME?.trim()}/main.js`),
       output: {
@@ -23,5 +24,6 @@ export default defineConfig({
         assetFileNames: `assets/[ext]/[name].[hash][extname]`
       }
     }
-  }
+  },
+  base: process.env.NODE_ENV === "production" ? "/retribucion-prueba/" : "/",
 })
