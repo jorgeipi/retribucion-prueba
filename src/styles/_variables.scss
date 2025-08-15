@@ -1,0 +1,81 @@
+
+//! Variables de Header y Sidebar
+//* Header
+$header-height: 11rem;
+$logo-ipicyt: 13.6rem;
+$breadcrumbs-height: 3rem;
+
+//* Heade Responsive
+$header-height-mobile: 4.8rem;
+$width-toggle-button: 4.8rem;
+$inputRes-height: 4.2rem;
+
+//* Sidebar
+$sidebar-width: 27rem;
+
+//* HeaderGob
+$header-height-gob: 6rem;
+
+//* Header Speed
+$header-speed: 0.3s;
+
+//* Fonts
+$primaryFont: "Noto Sans", serif;
+$light: 300;
+$regular : 400;
+$medium: 500;
+$light-bold: 600;
+$bold: 700;
+
+// * Sombras
+$boxshadow:rgba(0, 0, 0, 0.1);
+
+$separacion: 2rem;
+
+//* Tamaños de Media Queries Propuesta
+$mobilexs: 368px;
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 992px;
+$desktopXL: 1200px;
+
+//* Tamaños de Media Queries del Gobierno para container (Header)
+$container-sm: 768px;
+$container-md: 992px;
+$container-lg: 1200px;
+
+//* Colors
+$white: hsl(0, 0%, 100%); // #FFFFFF, rgb(255, 255, 255)
+$black: hsl(0, 0%, 0%); // #000000, rgb(0, 0, 0)
+$dark-gray: hsl(240, 17%, 26%); // #38384F, rgb(56, 56, 79)
+$gray: hsl(240, 6%, 54%); // #838391, rgb(131, 131, 145)
+$light-gray: #D9D9D9;
+$grey-100:#f7fafc;
+$normal-gray: #AAA;
+$dark-blue: hsl(226, 56%, 21%); // #182654, rgb(24,38,84)
+$strong-blue: hsl(218,67%,32%); // #1B4388, rgb(27,67,136)
+$strong-blue2: hsl(218, 77%, 53%); // #2b6fe3, rgb(43,111,227)
+$strong-blue3: hsl(227,93%,55%); // #2453F7, rgb(36,83,247)
+$strong-blue4: #0E149B; // #0E149B, rgb(36,83,247)
+$gray-blue: hsl(226,27%,38%); // #48547c, rgb(72,84,124)
+$cian-analogo: hsl(188, 77%, 53%);
+$back-blue: hsl(218,77%,90%); // #d2e0f9, rgb(210,224,249)
+$green-alert:#14A204; //
+$green: hsl(169,100%,29%); // #009377, rgb(0,147,119)
+$red: hsl(348, 83%, 47%); // #DC143C, rgb(220, 20, 60)
+$brown: hsl(36,42%,55%); // #BC955C, rgb(188,149,92)
+
+
+//* footer colors:
+$main--footer-green: hsl(168,41%,14%); // #15322C, rgb(21,50,44)
+$main--footer-red: hsl(336,69%,23%); // #611232, rgb(97,18,50);
+$body--footer-brown: hsl(39,46%,75%); // #ddc8a2, rgb(221,200,162)
+
+$dbm: hsl(32,93%,55%); // #F79420, rgb(247,148,32)
+$dca: hsl(149,100%,33%); // #00A650, rgb(0,166,80) 
+$dcsd: hsl(359,84%,53%); // #EC2227, rgb(236,34,39)
+$dga: hsl(196,100%,47%); // #00ADEE, rgb(0,173,238)
+$dma: hsl(268,34%,45%); // #714C9A, rgb(113,76,154)
+$cns: hsl(268,34%,45%); // #714C9A, rgb(113,76,154)
+$lambama: hsl(203,92%,75%); // #87cefa, rgb(135,206,250)
+$linan: hsl(0,79%,72%); // #f08080, rgb(240,128,128)
