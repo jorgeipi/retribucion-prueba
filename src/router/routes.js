@@ -5,6 +5,12 @@ const routes = [
         meta: { auth: false },
         children: [
             {
+                path: '',
+                name: 'Inicio',
+                // component: Inicio,
+                component: () => import('@/pages/Inicio.vue'),
+            },
+            {
                 path: '/nota-estancias',
                 name: 'Nota Estancias',
                 // component: Inicio,
@@ -38,7 +44,7 @@ const routes = [
                 path: '/nota-eneceb',
                 name: 'Nota ENECEB',
                 // component: Inicio,
-                component: () => import('@/notes/ENECEB1/index.vue'),
+                component: () => import('@/pages/NotaENECEB.vue'),
             },
         ],
     },
